@@ -1,0 +1,57 @@
+name: node2shell-lab
+
+services:
+  decode-vuln:
+    image: node:26.12.0-bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+    environment:
+      PORT: "3000"
+    command: node express-stream.js
+    ports:
+      - "127.0.0.1:19800:3000"
+
+  decode-patched:
+    image: node:26.12.1-bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+    environment:
+      PORT: "3000"
+    command: node express-stream.js
+    ports:
+      - "127.0.0.1:19801:3000"
+
+  fetch-vuln:
+    image: node:26.12.0-bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+    environment:
+      PORT: "3000"
+    command: node fetch-consumer.js
+    ports:
+      - "127.0.0.1:19802:3000"
+
+  https-vuln:
+    image: node:26.12.0-bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+    environment:
+      PORT: "3443"
+    command: node https-stream.js
+    ports:
+      - "127.0.0.1:19810:3443"
+
+  https-patched:
+    image: node:26.12.1-bookworm-slim
+    working_dir: /app
+    volumes:
+      - .:/app:ro
+    environment:
+      PORT: "3443"
+    command: node https-stream.js
+    ports:
+      - "127.0.0.1:19811:3443"
